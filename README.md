@@ -1,24 +1,39 @@
-# README
+# concept
+- 調剤事務を仕事にしている方々向けの情報交換・質問アプリ
+- content(質問・情報)に対してコメントがいくつあるかindexに表示
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+# DB設計
 
-Things you may want to cover:
+## usersテーブル(ユーザー管理)
+| Column     | Type    | Options     |
+| ---------- | ------- | ----------- |
+| name       | string  | null: false |
+| address_id | integer | null: false |
+| email      | string  | null: false, unique: true |
+| password   | string  | null: false |
 
-* Ruby version
+### Association
+- has_many :contents
+- has_many :comments
 
-* System dependencies
+## contentsテーブル（情報及び質問の管理）
+| Column  | Type       | Options     |
+| ------- | ---------- | ----------- |
+| title   | string     | null: false |
+| article | text       | null: false |
+| user    | references | null: false |
 
-* Configuration
+### Association
+- belongs_to : user
+- has_many :comments
 
-* Database creation
+## commentsテーブル(コメント機能) 
+| Column     | Type       | Options     |
+| ---------- | ---------- | ----------- |
+| comment    | text       | null: false |
+| user       | references | null: false |
+| address_id | integer    | null: false |
 
-* Database initialization
-
-* How to run the test suite
-
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
+### Association
+- belongs_to :user
+- belongs_to :content
